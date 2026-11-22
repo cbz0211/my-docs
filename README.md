@@ -1,6 +1,5 @@
 # my-docs
 
-⚠️ 一两句项目简介（用你自己的话）。
 
 - 网站地址：https://YOUR-USERNAME.github.io/my-docs/
 - [个人实验报告](report/README.md)
