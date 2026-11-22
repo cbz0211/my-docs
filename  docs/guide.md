@@ -11,6 +11,5 @@
 - python -m mkdocs serve：本地预览。
 - python -m mkdocs build --strict：构建网站并严格检查警告。
 
-⚠️ 补一段你本地实际操作时的步骤或注意事项。
 
 返回[首页](index.md)，或查看 [API 参考](api.md)。
