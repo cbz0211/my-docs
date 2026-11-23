@@ -28,7 +28,13 @@
 
 ### 2.4 Pages 与 Actions 设置
 
-在 Settings → Pages → Build and deployment 把 Source 设为 **GitHub Actions**，这样发布来源就是工作流上传的 `site/` artifact，不需要创建 `gh-pages` 分支、不需要申请访问令牌。同时在 Settings → Actions → General 确认仓库允许运行工作流（下图选中了 Allow all actions and reusable workflows）。`deploy.yml` 已在 `deploy` 任务里单独授予 `pages: write` 和 `id-token: write`，所以没有把仓库默认权限改成全局读写，也没有勾选创建/批准 PR 的权限。
+在 Settings → Pages → Build and deployment 把 Source 设为 **GitHub Actions**，这样发布来源就是工作流上传的 `site/` artifact，不需要创建 `gh-pages` 分支、不需要申请访问令牌。同时在 Settings → Actions → General 确认仓库允许运行工作流。`deploy.yml` 已在 `deploy` 任务里单独授予 `pages: write` 和 `id-token: write`，所以没有把仓库默认权限改成全局读写，也没有勾选创建/批准 PR 的权限。
+
+下图是设置完成后的 Pages 页面：**Build and deployment → Source 显示为 GitHub Actions**，上方还能看到站点已发布在 `https://cbz0211.github.io/my-docs/`。
+
+![Pages 发布来源设置为 GitHub Actions](images/04-pages-setting.png)
+
+另附一张仓库 Actions 权限的核对截图（选中 Allow all actions and reusable workflows）：
 
 ![Actions 权限设置](images/04-actions-permission.png)
 
@@ -53,7 +59,9 @@ https://github.com/cbz0211/my-docs/actions/runs/45045155547
 | 使用指南 | https://cbz0211.github.io/my-docs/guide/ | 常用命令、实践提示与返回链接正常 |
 | API 参考 | https://cbz0211.github.io/my-docs/api/ | 两段 JSON 代码块高亮正常 |
 
-导航里首页、关于、使用指南、API 参考四项都在，页脚显示 Material for MkDocs，资源加载正常。地址必须带仓库路径 `/my-docs/`，以 Settings → Pages 显示的地址为准。
+导航里首页、关于、使用指南、API 参考四项都在，页脚显示 Material for MkDocs，资源加载正常。地址必须带仓库路径 `/my-docs/`，以 Settings → Pages 显示的地址为准。下图保留了地址栏，同一屏里还能看到左侧四页导航和首页末尾「自动部署验证」的新增文字。
+
+![公开网站效果（保留地址栏）](images/06-website.png)
 
 ### 2.7 第二次推送与自动更新验证
 
@@ -62,9 +70,11 @@ https://github.com/cbz0211/my-docs/actions/runs/45045155547
 - 对应提交链接：https://github.com/cbz0211/my-docs/commit/282fcc223d95e2b5a4c5459ff03796da15817980
 - 对应 Actions 运行链接：https://github.com/cbz0211/my-docs/actions/runs/45045599706
 
-下图是 #16 的运行详情页：`build` 20s、`deploy` 15s 两个任务均成功，右侧还能看到 `282fcc2` 这次提交和 deploy 输出的站点 URL。
+下面两张截图分别对应运行记录和网站侧效果：#16 的运行详情页里 `build` 20s、`deploy` 15s 两个任务均成功，右侧还能看到 `282fcc2` 这次提交和 deploy 输出的站点 URL；网站首页则出现了「自动部署验证：这是我第二次推送后更新的内容。」
 
 ![第二次推送自动触发的成功运行](images/05-run16-success.png)
+
+![网站出现新增文字](images/06-website.png)
 
 ## 3. 问题与解决
 
@@ -93,3 +103,17 @@ https://github.com/cbz0211/my-docs/actions/runs/45045155547
 
 5. **本次方案为何无需创建 `gh-pages` 分支？**
    因为用的是 GitHub 官方 Pages Actions：构建产物以 artifact 形式在 job 之间传递，`deploy` 任务直接调用 Pages 部署接口发布，Pages 的 Source 设为 GitHub Actions。分支发布法是另一套方案，两者不能混用；本方案没有把生成的 HTML 推回任何分支。
+
+---
+
+## 附：截图索引
+
+| 步骤 | 文件 | 内容 |
+| --- | --- | --- |
+| 2.1 | `images/01-repository.png` | 个人公开仓库首页（所有者、仓库名、Public） |
+| 2.2 | `images/02-structure.png` | 本地项目目录树与 MkDocs 配置 |
+| 2.3 | `images/03-local-env.png` | 本地虚拟环境激活脚本说明 |
+| 2.4 | `images/04-pages-setting.png` | Pages 发布来源 Source = GitHub Actions |
+| 2.4 | `images/04-actions-permission.png` | 仓库 Actions 权限核对（补充） |
+| 2.5 / 2.7 | `images/05-run16-success.png` | push 自动触发的成功运行记录（build、deploy） |
+| 2.6 / 2.7 | `images/06-website.png` | 公开网站效果（保留地址栏）与新增文字 |
